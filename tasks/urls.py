@@ -3,9 +3,9 @@ from rest_framework import routers
 from tasks import views
 
 router = routers.DefaultRouter()
-router.register(r"tasks", views.TaskVies, "tasks" )
+router.register(r"tasks", views.TaskView , "tasks" )
 
 
 urlpatterns = [
-    path()
+    path("api/v1/", include(router.urls))
 ]
