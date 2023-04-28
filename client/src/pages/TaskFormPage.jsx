@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { createTask , deleteTask , updateTask , geatTasks} from "../api/tasks.api";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
+import { toast } from "react-hot-toast";
 
 export function TaskFormPage() {
   const { register, handleSubmit ,formState:{errors}, setValue } = useForm()
@@ -11,8 +12,22 @@ export function TaskFormPage() {
   const onSubmit = handleSubmit(async data =>{
     if (params.id){
       await updateTask(params.id, data)
+      toast.success('Tarea Actualizada', {
+        position: 'bottom-right',
+        style :{
+          background: "#1010101",
+          color:"fff"
+        }
+      })
     }else{
       await createTask(data)
+      toast.success('Tarea Creada', {
+        position: 'bottom-right',
+        style :{
+          background: "#1010101",
+          color:"fff"
+        }
+      })
     }
     navigate("/tasks")
     });
@@ -32,30 +47,54 @@ export function TaskFormPage() {
 
 
     return (
-      <div>
-        <form onSubmit={onSubmit}>
-          <input type="text"
-           placeholder="title" 
-          {...register("title", {required: true})}
+      <div className="max-w-xl mx-auto">
+        <form onSubmit={onSubmit} className="bg-zinc-800 p-10 rounded-lg mt-2">
+          <input
+            type="text"
+            placeholder="Title"
+            {...register("title", { required: true })}
+            className="bg-zinc-700 p-3 rounded-lg block w-full mb-3"
+            autoFocus
           />
-          {errors.title && <span> Title is required</span>}
-          <textarea rows="3" 
-          placeholder="description"
-          {...register("description", {required: true})}
-          ></textarea>
-          {errors.description && <span>Description is required</span>}
-
-          <button>Save</button>
+  
+          {errors.title && <span>This field is required</span>}
+  
+          <textarea
+            placeholder="Description"
+            {...register("description", { required: true })}
+            className="bg-zinc-700 p-3 rounded-lg block w-full"
+          />
+  
+          {errors.description && <span>This field is required</span>}
+  
+          <button className="bg-indigo-500 p-3 rounded-lg block w-full mt-3">
+            Save
+          </button>
         </form>
-        {params.id && (<button onClick={async () => {
-          const response = window.confirm("Are you sure?");
-          if (response){
-           await  deleteTask(params.id);
-           navigate("/tasks/");
-          }
-          }}>
-            Delete</button>)}
+  
+        {params.id && (
+          <div className="flex justify-end">
+            <button
+              className="bg-red-500 p-3 rounded-lg w-48 mt-3"
+              onClick={async () => {
+                const accepted = window.confirm("Are you sure?");
+                if (accepted) {
+                  await deleteTask(params.id);
+                  toast.success("Task Removed", {
+                    position: "bottom-right",
+                    style: {
+                      background: "#101010",
+                      color: "#fff",
+                    },
+                  });
+                  navigate("/tasks");
+                }
+              }}
+            >
+              delete
+            </button>
+          </div>
+        )}
       </div>
     );
-}
-  
+  }
