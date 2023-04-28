@@ -1,5 +1,3 @@
-<div align="center">
-
 # Django-Crud-Api
 
 This is a simple Django CRUD application.
@@ -14,4 +12,3 @@ This is a simple Task List Page whit a simple CRUD running whit:
 
 
 
-</div>
