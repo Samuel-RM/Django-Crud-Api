@@ -8,9 +8,10 @@ function App() {
     <Navigations />
     
     <Routes>
-        <Route path='/' element={<Navigate to="/tasks" />} />
-        <Route path='/tasks' element={<TasksPage />} />
-        <Route path='/tasks-create' element={<TaskFormPage />} />
+        <Route path="/" element={<Navigate to="/tasks" />} />
+        <Route path="/tasks" element={<TasksPage />} />
+        <Route path="/tasks/:id" element={<TaskFormPage />} />
+        <Route path="/tasks-create" element={<TaskFormPage />} />
     </Routes>
     </BrowserRouter>
   )
